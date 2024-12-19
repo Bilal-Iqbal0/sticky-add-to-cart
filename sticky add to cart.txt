@@ -1,0 +1,144 @@
+<div class="sticky-product-bar">
+  <div class="product-info">
+    <img src="{{ product.featured_image | img_url: 'small' }}" alt="Product Image">
+    <div class="product-details">
+      <h2 class="product-title">{{ product.title }}</h2>
+      <div class="price-quantity-wrapper">
+        <p class="product-price">{{ product.price | money }}</p>
+        <span class="divider">|</span>
+        <div class="quantity-selector">
+          <label for="quantity">Qty:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1" class="quantity-input">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="product-actions">
+    <form method="post" action="/cart/add">
+      <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+      <input type="hidden" name="quantity" id="cart-quantity" value="1">
+      <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .sticky-product-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #469ab4;
+    color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+
+  .sticky-product-bar .product-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .sticky-product-bar img {
+    height: 50px;
+    width: 50px;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+  .sticky-product-bar .product-details h2 {
+    font-size: 22px;
+    margin: 0;
+    color: #fff;
+  }
+
+  .sticky-product-bar .price-quantity-wrapper {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-top: 5px;
+  }
+
+  .sticky-product-bar .product-price {
+    margin: 0;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  .sticky-product-bar .divider {
+    margin: 0 10px;
+    font-size: 16px;
+    color: #fff;
+  }
+
+  .sticky-product-bar .quantity-selector {
+    display: flex;
+    align-items: center;
+  }
+
+  .sticky-product-bar .quantity-selector label {
+    color: #fff;
+    font-size: 14px;
+    margin-right: 5px;
+  }
+
+  .sticky-product-bar .quantity-input {
+    width: 50px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    background: #fff;
+    color: #000;
+  }
+
+  .sticky-product-bar .product-actions .add-to-cart-btn {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    padding: 8px 30px;
+    border-radius: 5px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .sticky-product-bar .product-actions .add-to-cart-btn:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 767px) {
+    .sticky-product-bar .product-details h2 {
+      font-size: 18px;
+    }
+
+    .sticky-product-bar .quantity-input {
+      width: 40px;
+      font-size: 14px;
+    }
+
+    .sticky-product-bar .product-actions .add-to-cart-btn {
+      font-size: 20px;
+      padding: 10px 16px;
+      white-space: nowrap;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const quantityInput = document.querySelector("#quantity");
+    const cartQuantityInput = document.querySelector("#cart-quantity");
+
+    // Update hidden input for quantity on change
+    quantityInput.addEventListener("change", function () {
+      cartQuantityInput.value = this.value;
+    });
+  });
+</script>
